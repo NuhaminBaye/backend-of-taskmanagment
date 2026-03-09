@@ -1,0 +1,259 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddCommentInput {
+  content: String!
+  taskId: ID!
+}
+
+input AddProjectMemberInput {
+  email: String!
+}
+
+input AddWorkspaceMemberInput {
+  email: String!
+  message: String
+  role: String!
+  workspaceId: ID!
+}
+
+type AuthPayload {
+  accessToken: String!
+  refreshToken: String
+  user: User!
+}
+
+type Comment {
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  taskId: ID!
+  updatedAt: DateTime!
+  user: User!
+  userId: ID!
+}
+
+type CommentResponse {
+  comment: Comment!
+}
+
+type CommentsResponse {
+  comments: [Comment!]!
+}
+
+input CreateProjectInput {
+  description: String
+  end_date: String
+  name: String!
+  priority: String
+  progress: Int
+  start_date: String
+  status: String
+  team_lead: String!
+  team_members: [String!]
+  workspaceId: ID!
+}
+
+input CreateTaskInput {
+  assigneeId: ID
+  description: String
+  due_date: String!
+  priority: String
+  projectId: ID!
+  status: String
+  title: String!
+  type: String
+  workspaceId: ID
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DeleteTaskInput {
+  taskIds: [String!]!
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+input InviteWorkspaceMemberInput {
+  email: String!
+  message: String
+  role: String!
+  workspaceId: ID!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  addComment(input: AddCommentInput!): CommentResponse!
+  addProjectMember(input: AddProjectMemberInput!, projectId: String!): String!
+  addWorkspaceMember(input: AddWorkspaceMemberInput!): String!
+  createProject(input: CreateProjectInput!): ProjectResponse!
+  createTask(input: CreateTaskInput!): TaskResponse!
+  createTeam(name: String!): Team!
+  deleteProject(id: String!): String!
+  deleteTasks(input: DeleteTaskInput!): String!
+  forgotPassword(input: ForgotPasswordInput!): String!
+  inviteTeamMember(email: String!, role: String!, teamId: String!): String!
+  inviteWorkspaceMember(input: InviteWorkspaceMemberInput!): String!
+  login(input: LoginInput!): AuthPayload!
+  markAllNotificationsRead: Boolean!
+  register(input: RegisterInput!): AuthPayload!
+  updateProject(input: UpdateProjectInput!): ProjectResponse!
+  updateTask(input: UpdateTaskInput!, taskId: String!): TaskResponse!
+}
+
+type Notification {
+  createdAt: DateTime!
+  id: ID!
+  message: String!
+  read: Boolean!
+}
+
+type Project {
+  createdAt: DateTime!
+  description: String
+  end_date: DateTime
+  id: ID!
+  members: [ProjectMember!]!
+  name: String!
+  owner: User
+  priority: String!
+  progress: Int!
+  start_date: DateTime
+  status: String!
+  tasks: [Task!]!
+  team_lead: ID
+  updatedAt: DateTime!
+  workspaceId: ID!
+}
+
+type ProjectMember {
+  createdAt: DateTime!
+  id: ID!
+  projectId: ID!
+  updatedAt: DateTime!
+  user: User!
+  userId: ID!
+}
+
+type ProjectResponse {
+  message: String!
+  project: Project!
+}
+
+type Query {
+  me: User!
+  notificationsQuery: [Notification!]!
+  project(id: String!): Project
+  projects: [Project!]!
+  taskComments(taskId: String!): CommentsResponse!
+  tasks(projectId: String!): [Task!]!
+  teams: [Team!]!
+  workspaces: WorkspacesResponse!
+}
+
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type Task {
+  assignee: User
+  assigneeId: ID
+  comments: [Comment!]
+  createdAt: DateTime!
+  description: String
+  due_date: DateTime!
+  id: ID!
+  priority: String!
+  projectId: ID!
+  status: String!
+  title: String!
+  type: String!
+  updatedAt: DateTime!
+}
+
+type TaskResponse {
+  message: String!
+  task: Task!
+}
+
+type Team {
+  id: ID!
+  members: [TeamMember!]!
+  name: String!
+}
+
+type TeamMember {
+  role: String!
+  user: User!
+}
+
+input UpdateProjectInput {
+  description: String
+  end_date: String
+  id: ID!
+  name: String
+  priority: String
+  progress: Int
+  start_date: String
+  status: String
+  workspaceId: ID
+}
+
+input UpdateTaskInput {
+  assigneeId: ID
+  description: String
+  due_date: String
+  priority: String
+  status: String
+  title: String
+  type: String
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  image: String
+  name: String!
+  updatedAt: DateTime!
+}
+
+type Workspace {
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  image_url: String
+  members: [WorkspaceMember!]!
+  name: String!
+  owner: User!
+  ownerId: ID!
+  projects: [Project!]!
+  updatedAt: DateTime!
+}
+
+type WorkspaceMember {
+  createdAt: DateTime!
+  id: ID!
+  message: String
+  role: String!
+  updatedAt: DateTime!
+  user: User!
+  userId: ID!
+  workspaceId: ID!
+}
+
+type WorkspacesResponse {
+  workspaces: [Workspace!]!
+}
