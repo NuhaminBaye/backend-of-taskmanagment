@@ -64,9 +64,13 @@ export class TaskService {
       throw new NotFoundException("Project not found");
     }
 
-    if (project.team_lead !== actingUserId) {
+    const isTeamLead = project.team_lead === actingUserId;
+    const isProjectMember = project.members.some(
+      (m) => m.userId === actingUserId || m.user.id === actingUserId,
+    );
+    if (!isTeamLead && !isProjectMember) {
       throw new ForbiddenException(
-        "You do not have admin privileges for this project",
+        "You do not have permission to create tasks in this project",
       );
     }
 
